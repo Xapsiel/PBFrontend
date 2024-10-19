@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Battle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.23.0/axios.js"></script>
+</head>
+
+<body>
+<div class="main">
+  <div class="info">
+    <div class="specs__inner">
+      <ul class="specs__list">
+        <li class="specs__list-item">
+          <p class="specs__item-title">Размер поля</p>
+          <p class="specs__item-descr">300х300</p>
+        </li>
+        <li class="specs__list-item">
+          <p class="specs__item-title">Кулдаун</p>
+          <p class="specs__item-descr">10 сек.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="link__inner">
+      <p class="link__title">Связаться с нами</p>
+      <a class="link__email" href="mailto:1234567@gmail.com">1234531237@gmail.com</a>
+      <ul class="link__list">
+        <li class="link__list-item">
+          <p class="link__list-name">frontend:</p>
+          <a class="link__telegram" href="#">
+            <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
+          </a>
+        </li>
+        <li class="link__list-item">
+          <p class="link__list-name">backend:</p>
+          <a class="link__telegram" href="#">
+            <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="account">
+    <div class="account__inner">
+      <div class="account__btn">
+        <button class="account-btn">Войти</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="colorPicker">
+    <label class="color-option">
+      <input type="radio" name="color" value="#FF0000" checked> Красный
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#00FF00"> Зеленый
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#0000FF"> Синий
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#FFFF00"> Желтый
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#FF00FF"> Розовый
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#00FFFF"> Циан
+    </label>
+    <label class="color-option">
+      <input type="radio" name="color" value="#000000"> Черный
+    </label>
+  </div>
+</div>
+
+<canvas id="pixelCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+<script src="script.js"></script>
+</body>
+
+</html>
