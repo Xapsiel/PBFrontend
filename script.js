@@ -259,17 +259,69 @@ async function printSquare(x1,y1,x2,y2,color){
 async function signUpAndInit() {
   // Пример использования функции sendPixels
   const pixelsData = {
-    id: 1,
+    id: 3,
     data: [
-      { x: 5, y: 7, color: '#FF0000' },
-      { x: 6, y: 7, color: '#00FF00' },
-      { x: 7, y: 7, color: '#ab28c9' },
-      { x: 6, y: 6, color: '#444470' }
+      { x: 2, y: 1, color: '#00BFFF' },
+      { x: 3, y: 1, color: '#00BFFF' },
+      { x: 4, y: 1, color: '#00BFFF' },
+      { x: 5, y: 1, color: '#00BFFF' },
+      { x: 6, y: 1, color: '#00BFFF' },
+      { x: 1, y: 2, color: '#00BFFF' },
+      { x: 2, y: 2, color: '#00BFFF' },
+      { x: 3, y: 2, color: '#00BFFF' },
+      { x: 4, y: 2, color: '#00BFFF' },
+      { x: 5, y: 2, color: '#00BFFF' },
+      { x: 6, y: 2, color: '#00BFFF' },
+      { x: 7, y: 2, color: '#00BFFF' },
+      { x: 1, y: 3, color: '#00BFFF' },
+      { x: 2, y: 3, color: '#00BFFF' },
+      { x: 3, y: 3, color: '#00BFFF' },
+      { x: 4, y: 3, color: '#00BFFF' },
+      { x: 5, y: 3, color: '#00BFFF' },
+      { x: 6, y: 3, color: '#00BFFF' },
+      { x: 7, y: 3, color: '#00BFFF' },
+      { x: 8, y: 3, color: '#00BFFF' },
+      { x: 1, y: 4, color: '#00BFFF' },
+      { x: 2, y: 4, color: '#00BFFF' },
+      { x: 3, y: 4, color: '#00BFFF' },
+      { x: 4, y: 4, color: '#00BFFF' },
+      { x: 5, y: 4, color: '#00BFFF' },
+      { x: 6, y: 4, color: '#00BFFF' },
+      { x: 7, y: 4, color: '#00BFFF' },
+      { x: 1, y: 5, color: '#00BFFF' },
+      { x: 2, y: 5, color: '#00BFFF' },
+      { x: 3, y: 5, color: '#00BFFF' },
+      { x: 4, y: 5, color: '#00BFFF' },
+      { x: 5, y: 5, color: '#00BFFF' },
+      { x: 6, y: 5, color: '#00BFFF' },
+      { x: 7, y: 5, color: '#00BFFF' },
+      { x: 8, y: 5, color: '#00BFFF' },
+      { x: 1, y: 6, color: '#00BFFF' },
+      { x: 2, y: 6, color: '#00BFFF' },
+      { x: 3, y: 6, color: '#00BFFF' },
+      { x: 4, y: 6, color: '#00BFFF' },
+      { x: 5, y: 6, color: '#00BFFF' },
+      { x: 6, y: 6, color: '#00BFFF' },
+      { x: 7, y: 6, color: '#00BFFF' },
+      { x: 8, y: 6, color: '#00BFFF' },
+      { x: 2, y: 7, color: '#00BFFF' },
+      { x: 3, y: 7, color: '#00BFFF' },
+      { x: 4, y: 7, color: '#00BFFF' },
+      { x: 5, y: 7, color: '#00BFFF' },
+      { x: 6, y: 7, color: '#00BFFF' },
+      { x: 7, y: 7, color: '#00BFFF' },
+      { x: 3, y: 8, color: '#00BFFF' },
+      { x: 4, y: 8, color: '#00BFFF' },
+      { x: 5, y: 8, color: '#00BFFF' },
+      { x: 6, y: 8, color: '#00BFFF' },
+      { x: 4, y: 9, color: '#000000' }, // Глаз
+      { x: 5, y: 9, color: '#000000' }  // Глаз
     ]
   };
+
+
   try {
     try {
-      console.log(2);
       await signUp(login, email, password, repeatPassword);
     } catch (error) {
       console.log("User already exists or sign-up failed, proceeding to sign-in.");
@@ -277,7 +329,6 @@ async function signUpAndInit() {
 
     await signIn(login, password);
     await sendPixels(pixelsData)
-    await  printSquare(5,10,10,20,"#ea9d9d")
     await fetchPixels(); // Ждем получения пикселей
     initWebSocket(); // Инициализируем WebSocket после успешного входа
 
