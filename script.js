@@ -9,6 +9,9 @@ let isDrawing = false;
 let socket = null; // Глобальная переменная для WebSocket
 let lastSendTime = 0; // Время последней отправки
 const cooldownTime = 10000; // Кулдаун в миллисекундах (10 секунд)
+var prevX = -1
+var prevY = -1
+var prevColor = "#0ff000"
 
 // Функция для входа
 async function signIn(login, password) {
@@ -73,15 +76,29 @@ async function getLastClickFromServer() {
   }
 }
 
-// Функция для получения пикселей с сервера
+// Функция для закрашивания всех пикселей в белый цвет
+function fillCanvasWithWhite() {
+  for (let x = 0; x < canvas.width / pixelSize; x++) {
+    for (let y = 0; y < canvas.height / pixelSize; y++) {
+      drawPixel(x, y, '#FFFFFF'); // Закрашиваем пиксели в белый цвет
+    }
+  }
+}
+
 async function fetchPixels() {
   try {
+    // Сначала закрашиваем все пиксели в белый цвет
+    fillCanvasWithWhite();
+
+    // Затем запрашиваем пиксели из базы данных и закрашиваем их
     const response = await axios.get('http://localhost:8080/getPixels', {
       headers: {
         "Authorization": `Bearer ${window.localStorage.getItem("jwtToken")}`,
         "Content-Type": "application/json; charset=UTF-8"
       }
     });
+
+    // Закрашиваем пиксели из базы данных
     response.data.forEach(pixel => {
       console.log("Drawing pixel:", pixel);
       drawPixel(pixel.x, pixel.y, pixel.color);
@@ -96,10 +113,10 @@ async function fetchPixels() {
 async function sendPixelData(x, y, color) {
   lastSendTime = await getLastClickFromServer() ; // Получаем последний клик с сервера
   const currentTime = Date.now() ;
-  console.log(currentTime, lastSendTime, cooldownTime);
+  console.log(currentTime, lastSendTime, cooldownTime, parseInt(window.localStorage.getItem("id")));
 
   // Проверка кулдауна
-  if (currentTime - lastSendTime < cooldownTime) {
+  if (currentTime - lastSendTime < cooldownTime ) {
     console.log("Пиксель не отправлен, кулдаун ещё активен");
     return false;
   }
@@ -120,11 +137,36 @@ async function sendPixelData(x, y, color) {
   return true;
 }
 
+function getSlightlyDarkerColor(hexColor) {
+  // Преобразуем цвет из формата HEX (#ffffff) в RGB
+  let r = parseInt(hexColor.slice(1, 3), 16);
+  let g = parseInt(hexColor.slice(3, 5), 16);
+  let b = parseInt(hexColor.slice(5, 7), 16);
+
+  // Уменьшаем яркость каждого компонента на 10
+  const offset = 50; // Насколько затемнить
+  r = Math.max(0, r - offset);
+  g = Math.max(0, g - offset);
+  b = Math.max(0, b - offset);
+
+  // Преобразуем обратно в HEX
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
 // Функция рисования пикселя на холсте
 function drawPixel(x, y, color) {
+  console.log(color)
+
   ctx.fillStyle = color;
+
+  // Рисуем сам пиксель
   ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+  // Настраиваем обводку
+  ctx.lineWidth = 1; // Тонкая граница
+  ctx.strokeStyle = getSlightlyDarkerColor(color); // Черная граница
+  // Рисуем границу вокруг пикселя
+  ctx.strokeRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
 }
+
 
 // Инициализация WebSocket
 function initWebSocket() {
@@ -138,8 +180,7 @@ function initWebSocket() {
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     console.log("Received pixel data from WebSocket:", data);
-    drawPixel(data.x, data.y, data.color); // Обработка полученных данных
-  };
+   };
 
   socket.onclose = (event) => {
     console.log(`WebSocket closed: ${event.code} - ${event.reason}`);
@@ -150,6 +191,7 @@ function initWebSocket() {
     setTimeout(initWebSocket, 2000);
   };
 }
+
 
 // Получение координат пикселя
 function getPixelCoordinates(event) {
@@ -176,8 +218,55 @@ canvas.addEventListener('mouseup', () => {
   isDrawing = false;
 });
 
+async function sendPixels(pixels) {
+
+  try {
+    const response = await axios.post('http://localhost:8080/print', pixels, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${window.localStorage.getItem('jwtToken')}`
+      }
+    });
+    console.log('Response from server:', response.data);
+  } catch (error) {
+      console.error('Error sending pixels:', error);
+  }
+}
+
+async function printSquare(x1,y1,x2,y2,color){
+  pixels = []
+
+  for (let y = y1; y <=y2 ; y++) {
+    for (let x = x1; x < x2; x++) {
+      console.log(x,y)
+      pixels.push({
+        x :x,
+        y : y,
+        color:  color
+      })
+    }
+  }
+  pixelsData = {
+    id: 1,
+    data: pixels
+  };
+  await  sendPixels(pixelsData)
+}
+
+// Вызов функции отправки пикселей
+
 // Основная функция для регистрации и инициализации WebSocket
 async function signUpAndInit() {
+  // Пример использования функции sendPixels
+  const pixelsData = {
+    id: 1,
+    data: [
+      { x: 5, y: 7, color: '#FF0000' },
+      { x: 6, y: 7, color: '#00FF00' },
+      { x: 7, y: 7, color: '#ab28c9' },
+      { x: 6, y: 6, color: '#444470' }
+    ]
+  };
   try {
     try {
       console.log(2);
@@ -187,8 +276,16 @@ async function signUpAndInit() {
     }
 
     await signIn(login, password);
+    await sendPixels(pixelsData)
+    await  printSquare(5,10,10,20,"#ea9d9d")
     await fetchPixels(); // Ждем получения пикселей
     initWebSocket(); // Инициализируем WebSocket после успешного входа
+
+
+
+
+
+
   } catch (error) {
     console.error("Error during sign-in or fetching pixels:", error);
   }

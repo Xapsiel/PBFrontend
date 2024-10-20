@@ -7,7 +7,9 @@
   <title>Pixel Battle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+          rel="stylesheet">
   <link rel="stylesheet" href="styles/normalize.css">
   <link rel="stylesheet" href="styles/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.23.0/axios.js"></script>
@@ -57,32 +59,41 @@
     </div>
   </div>
 
-  <div id="colorPicker">
-    <label class="color-option">
-      <input type="radio" name="color" value="#FF0000" checked> Красный
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#00FF00"> Зеленый
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#0000FF"> Синий
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#FFFF00"> Желтый
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#FF00FF"> Розовый
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#00FFFF"> Циан
-    </label>
-    <label class="color-option">
-      <input type="radio" name="color" value="#000000"> Черный
-    </label>
+  <div class="colors" id="colorPicker">
+    <div class="colors__inner">
+      <label class="color-option">
+        <input class="colors__input red" type="radio" name="color" value="#FF0000" checked>
+        <p>Красный</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input yellow" type="radio" name="color" value="#00FF00">
+        <p>Зеленый</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input blue" type="radio" name="color" value="#0000FF">
+        <p>Синий</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input blue" type="radio" name="color" value="#FFFF00">
+        <p>Желтый</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input blue" type="radio" name="color" value="#FF00FF">
+        <p>Розовый</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input blue" type="radio" name="color" value="#00FFFF">
+        <p>Циан</p>
+      </label>
+      <label class="color-option">
+        <input class="colors__input blue" type="radio" name="color" value="#000000">
+        <p>Черный</p>
+      </label>
+    </div>
   </div>
 </div>
 
-<canvas id="pixelCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
+<canvas class="canvas__style" id="pixelCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
 <script src="script.js"></script>
 </body>
 
