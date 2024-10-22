@@ -37,7 +37,8 @@ body {
 
 canvas {
   position: relative;
-  Z-index: 10;
+  transform: translateY(20%);
+  z-index: 102;
   border: 1px solid black;
   background-color: #fff;
   cursor: crosshair;
@@ -59,7 +60,6 @@ canvas {
 }
 
 .main {
-  padding: 20px;
   position: absolute;
   top: 0;
   right: 0;
@@ -69,22 +69,23 @@ canvas {
 
 .info {
   position: absolute;
+  z-index: 101;
   top: 20px;
-  left: 20px;
+  right: 20px;
   background-color: #000;
   border-radius: 20px;
   padding: 10px 20px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  max-width: 350px;
+  gap: 10px;
+  max-width: 250px;
   width: 100%;
+  font-size: 14px;
 }
 
 .specs__list {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
 }
 
 .specs__list-item {
@@ -99,7 +100,14 @@ canvas {
 
 .link__inner {
   border-top: 1px solid #303030;
-  padding-top: 30px;
+  padding-top: 20px;
+}
+
+.link__list{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .link__title {
@@ -109,8 +117,7 @@ canvas {
 }
 
 .link__list-item {
-  margin-bottom: 40px;
-  width: 140px;
+  width: 120px;
   display: flex;
   position: relative;
 }
@@ -130,25 +137,13 @@ canvas {
   height: 33px;
 }
 
-.account {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.account-btn {
-  background-color: aquamarine;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-}
-
 .colors {
   position: absolute;
-  bottom: 20px;
+  z-index: 103;
+  bottom: -10px;
   left:50%;
   transform:translate(-50%, -50%);
+  font-size: 14px;
 }
 
 .colors__inner {
@@ -156,19 +151,13 @@ canvas {
   flex-direction: row;
   gap: 20px;
   background-color: #000;
-  padding: 30px 40px;
+  padding: 15px 20px;
   border-radius: 20px;
 }
 
 .color-option{
   text-align: center;
 }
-
-/* чтобы изменить цвета кнопок, пролистай вниз
-до  .colors__input:nth-child(1).colors__input::before.
-nth-child(1) позволяет обратиться к конктреному элементу
-по номеру, так что цвет изменяется в этом свойстве, если что*/
-
 
 .colors__input {
   cursor: pointer;
@@ -179,13 +168,13 @@ nth-child(1) позволяет обратиться к конктреному �
   -moz-appearance: none;
   appearance: none;
   outline: none;
-  margin: 0 10px;
+  margin: 0 10px 5px 10px;
 }
 
 .colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -198,8 +187,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(1) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -211,8 +200,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(2) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -224,8 +213,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(3) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -237,8 +226,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(4) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -250,8 +239,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(5) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -263,8 +252,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(6) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -276,8 +265,8 @@ nth-child(1) позволяет обратиться к конктреному �
 
 .color-option:nth-child(7) .colors__input.colors__input::before {
   content: '';
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -285,4 +274,180 @@ nth-child(1) позволяет обратиться к конктреному �
   transform: translate(-50%, -50%);
   background-color: rgb(0, 0, 0);
   border: 3px solid rgb(255, 255, 255);
+}
+
+.button__container{
+  margin: 20px 0 0 20px;
+  position: absolute;
+  z-index: 100;
+}
+
+.button {
+  padding: 6px 24px;
+  background: aquamarine;
+  border-radius: 10px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+}
+.button:active {
+  transform: scale(0.98);
+}
+/* Home */
+.home {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+.home::before {
+  content: "";
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(47, 47, 47, 0.7);
+  z-index: 110;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease-out;
+}
+.home.show::before {
+  opacity: 1;
+  pointer-events: auto;
+}
+/* From */
+.form_container {
+  position: fixed;
+  max-width: 320px;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.2);
+  z-index: 110;
+  background: #121212;
+  color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease-out;
+}
+.home.show .form_container {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.signup_form {
+  display: none;
+}
+.form_container.active .signup_form {
+  display: block;
+}
+.form_container.active .login_form {
+  display: none;
+}
+.form_close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #fff;
+  font-size: 22px;
+  opacity: 0.7;
+  cursor: pointer;
+}
+.form_container h2 {
+  font-size: 22px;
+  color: #fff;
+  text-align: center;
+}
+.input_box {
+  position: relative;
+  margin-top: 30px;
+  width: 100%;
+  height: 40px;
+}
+.input_box input {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0 30px;
+  color: #fff;
+  background-color: transparent;
+  transition: all 0.2s ease;
+  border-bottom: 1.5px solid #aaaaaa;
+}
+.input_box input:focus {
+  border-color: #fff;
+}
+.input_box i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #707070;
+}
+.input_box i.email,
+.input_box i.password,
+.input_box i.person {
+  left: 0;
+}
+.input_box input:focus ~ i.email,
+.input_box input:focus ~ i.password
+.input_box input:focus ~ i.person{
+  color: #ffffff;
+}
+
+.input_box img{
+  height: 20px;
+  width: 20px;
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 10px;
+}
+
+.input_box i.pw_hide {
+  right: 0;
+  font-size: 18px;
+  cursor: pointer;
+}
+.option_field {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form_container a {
+  color: aquamarine;
+  font-size: 14px;
+}
+.form_container a:hover {
+  text-decoration: underline;
+}
+.checkbox {
+  display: flex;
+  column-gap: 8px;
+  white-space: nowrap;
+}
+.checkbox input {
+  accent-color: aquamarine;
+}
+.checkbox label {
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+}
+.form_container .button {
+  background: aquamarine;
+  margin-top: 30px;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+.login_signup {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 15px;
 }
