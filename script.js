@@ -178,6 +178,7 @@ function initWebSocket() {
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
     console.log("Received pixel data from WebSocket:", data);
+    drawPixel(data.x, data.y, data.color);
   };
 
   socket.onclose = (event) => {
