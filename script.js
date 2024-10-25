@@ -1,7 +1,3 @@
-const login = "ilya2s";
-const email = "ilyas2@mail2";
-const password = "2password";
-const repeatPassword = "2password";
 
 const canvas = document.getElementById('pixelCanvas');
 const ctx = canvas.getContext('2d');
@@ -10,17 +6,16 @@ let isDrawing = false;
 let socket = null; // WebSocket переменная
 let lastSendTime = 0; // Время последней отправки
 const cooldownTime = 10000; // Кулдаун 10 секунд
-let prevX = -1;
-let prevY = -1;
-let prevColor = "#0ff000";
+
 
 // Функция для входа
 async function signIn(login, password) {
   try {
-    const response = await axios.post("http://localhost:8080/SignIn", {
+    const response = await axios.post("http://localhost:8080/auth/sign-in", {
       login,
       password,
     });
+    console.log(response.data);
     if (response.data.token) {
       const jwtToken = response.data.token;
       const id = response.data.id;
@@ -40,7 +35,7 @@ async function signIn(login, password) {
 // Функция для регистрации
 async function signUp(login, email, password, repeatPassword) {
   try {
-    const response = await axios.post("http://localhost:8080/SignUp", {
+    const response = await axios.post("http://localhost:8080/auth/sign-up", {
       login,
       email,
       password,
@@ -50,7 +45,7 @@ async function signUp(login, email, password, repeatPassword) {
     if (response.data.status === "success") {
       await signIn(login, password); // Вход после успешной регистрации
     }
-    return response.data
+    return response.data;
   } catch (error) {
     console.error("Error during SignUp:", error);
     throw error;
@@ -62,8 +57,8 @@ async function getLastClickFromServer() {
   try {
     const id = parseInt(window.localStorage.getItem("id"));
     console.log("Fetching last click for user ID:", id);
-    const response = await axios.post('http://localhost:8080/getLastClick', {
-      id,
+    const response = await axios.post('http://localhost:8080/api/getLastClick', {
+      id: id,
     }, {
       headers: {
         "Authorization": `Bearer ${window.localStorage.getItem("jwtToken")}`,
@@ -94,7 +89,7 @@ async function fetchPixels() {
   try {
     fillCanvasWithWhite(); // Закрашиваем белым
 
-    const response = await axios.get('http://localhost:8080/getPixels', {
+    const response = await axios.get('http://localhost:8080/pixels/getPixels', {
       headers: {
         "Authorization": `Bearer ${window.localStorage.getItem("jwtToken")}`,
         "Content-Type": "application/json; charset=UTF-8",
@@ -111,16 +106,17 @@ async function fetchPixels() {
 }
 
 // Функция отправки данных пикселя
-// Функция отправки данных пикселя
 async function sendPixelData(x, y, color) {
   // Проверяем, был ли инициализирован WebSocket
   if (!socket || socket.readyState !== WebSocket.OPEN) {
     console.error("WebSocket не инициализирован или не подключен.");
     return false; // Прекращаем выполнение, если WebSocket недоступен
   }
-
+  console.log(1)
   lastSendTime = await getLastClickFromServer(); // Получаем последний клик
+  console.log(lastSendTime)
   const currentTime = Date.now();
+  console.log(currentTime)
 
   // Проверка кулдауна
   if (currentTime - lastSendTime < cooldownTime) {
@@ -134,7 +130,7 @@ async function sendPixelData(x, y, color) {
     y,
     color,
     lastclick: currentTime,
-    owner: parseInt(window.localStorage.getItem("id")),
+    id: parseInt(window.localStorage.getItem("id")),
   };
 
   console.log("Отправка данных пикселя:", pixelData);
@@ -143,13 +139,14 @@ async function sendPixelData(x, y, color) {
   socket.send(JSON.stringify(pixelData));
   return true;
 }
+
 // Функция для затемнения цвета
 function getSlightlyDarkerColor(hexColor) {
   let r = parseInt(hexColor.slice(1, 3), 16);
   let g = parseInt(hexColor.slice(3, 5), 16);
   let b = parseInt(hexColor.slice(5, 7), 16);
 
-  const offset = 50; // На сколько затемнить
+  const offset = 0; // На сколько затемнить
   r = Math.max(0, r - offset);
   g = Math.max(0, g - offset);
   b = Math.max(0, b - offset);
@@ -160,10 +157,8 @@ function getSlightlyDarkerColor(hexColor) {
 // Функция рисования пикселя
 function drawPixel(x, y, color) {
   ctx.fillStyle = color;
+
   ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // Рисуем пиксель
-  ctx.lineWidth = 1; // Границы
-  ctx.strokeStyle = getSlightlyDarkerColor(color); // Темная граница
-  ctx.strokeRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // Рисуем границу
 }
 
 // Инициализация WebSocket
@@ -205,14 +200,13 @@ canvas.addEventListener('mousedown', async (event) => {
     alert("Вы должны быть авторизованы, чтобы рисовать пиксели.");
     return; // Прекращаем выполнение функции, если не авторизован
   }
-
   isDrawing = true;
   const { x, y } = getPixelCoordinates(event);
   console.log(x, y);
 
   const color = document.querySelector('input[name="color"]:checked').value; // Получаем выбранный цвет
 
-  if (await sendPixelData(x, y, color)) {
+  if (await sendPixelData(x, y, color) ) {
     drawPixel(x, y, color); // Рисуем пиксель на клиенте
   }
 });
@@ -223,7 +217,7 @@ canvas.addEventListener('mouseup', () => {
 // Функция отправки пикселей
 async function sendPixels(pixels) {
   try {
-    const response = await axios.post('http://localhost:8080/print', pixels, {
+    const response = await axios.post('http://localhost:8080/api/print', pixels, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${window.localStorage.getItem('jwtToken')}`,
@@ -255,15 +249,19 @@ async function printSquare(x1, y1, x2, y2, color) {
   };
   await sendPixels(pixelsData);
 }
+
 const formOpenBtn = document.querySelector("#form-open"),
     home = document.querySelector(".home"),
     formContainer = document.querySelector(".form_container"),
     formCloseBtn = document.querySelector(".form_close"),
     signupBtn = document.querySelector("#signupBtn"),
     loginBtn = document.querySelector("#loginBtn"),
+    toLogin = document.querySelector("#toLogin"),
     pwShowHide = document.querySelectorAll(".pw_hide");
+
 formOpenBtn.addEventListener("click", () => home.classList.add("show"));
 formCloseBtn.addEventListener("click", () => home.classList.remove("show"));
+
 pwShowHide.forEach((icon) => {
   icon.addEventListener("click", () => {
     let getPwInput = icon.parentElement.querySelector("input");
@@ -276,14 +274,17 @@ pwShowHide.forEach((icon) => {
     }
   });
 });
+
 signupBtn.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.add("active");
 });
-loginBtn.addEventListener("click", (e) => {
+
+toLogin.addEventListener("click", (e) => {
   e.preventDefault();
   formContainer.classList.remove("active");
 });
+
 document.getElementById('loginBtn').addEventListener('click', async (e) => {
   e.preventDefault();
   const loginInput = document.querySelector('input[placeholder="Имя пользователя"]');
@@ -316,7 +317,6 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
   try {
     const result = await signUp(loginInput, emailInput, passwordInput, confirmPasswordInput);
     if (result.status === "success") {
-      alert('Регистрация успешна.');
       initAfterLogin();
     } else {
       alert('Ошибка регистрации.');
@@ -325,7 +325,24 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
     alert('Ошибка при регистрации: ' + error.message);
   }
 });
+
+// Функция для инициализации приложения при загрузке страницы
+async function initializeApp() {
+  fetchPixels();
+
+  const jwtToken = window.localStorage.getItem("jwtToken");
+  const authenticated = await isAuthenticated();
+  if (authenticated) {
+    if (jwtToken) {
+      console.log("JWT token найден, инициализация приложения...");
+      initAfterLogin(); // Инициализация приложения, включая WebSocket
+    } else {
+      console.log("JWT token не найден, пожалуйста, войдите в систему.");
+    }
+  }
+}
 async function isAuthenticated() {
+
   const token = window.localStorage.getItem("jwtToken");
 
   if (!token) {
@@ -333,7 +350,7 @@ async function isAuthenticated() {
   }
 
   try {
-    const response = await axios.get("http://localhost:8080/validateToken", {
+    const response = await axios.get("http://localhost:8080/auth/validateToken", {
       headers: {
         "Authorization": `Bearer ${token}`,
       },
@@ -343,16 +360,10 @@ async function isAuthenticated() {
     return false; // В случае ошибки также считаем, что пользователь не авторизован
   }
 }
+// Запускаем инициализацию при загрузке страницы
+window.addEventListener("load", initializeApp);
+
 // Инициализация WebSocket после успешного входа
 async function initAfterLogin() {
   initWebSocket(); // Подключаемся к WebSocket после авторизации
 }
-
-fetchPixels();
-window.onload = async () => {
-  const authenticated = await isAuthenticated();
-  if (authenticated) {
-    // Пользователь авторизован, выполните необходимые действия
-    initAfterLogin(); // Например, инициализация WebSocket
-  }
-};
