@@ -6,8 +6,9 @@ let isDrawing = false;
 let socket = null; // WebSocket переменная
 let lastSendTime = 0; // Время последней отправки
 const cooldownTime = 10000; // Кулдаун 10 секунд
-
-
+const coordinates = document.getElementById("coordinateDisplay")
+var prevx = 0
+var prevy = 0
 // Функция для входа
 async function signIn(login, password) {
   try {
@@ -15,13 +16,11 @@ async function signIn(login, password) {
       login,
       password,
     });
-    console.log(response.data);
     if (response.data.token) {
       const jwtToken = response.data.token;
       const id = response.data.id;
       window.localStorage.setItem("jwtToken", jwtToken);
       window.localStorage.setItem("id", id);
-      console.log("User ID:", id);
       return jwtToken;
     } else {
       throw new Error("No token received during sign-in.");
@@ -41,7 +40,6 @@ async function signUp(login, email, password, repeatPassword) {
       password,
       repeatpassword: repeatPassword,
     });
-    console.log("Sign-up response:", response.data);
     if (response.data.status === "success") {
       await signIn(login, password); // Вход после успешной регистрации
     }
@@ -56,7 +54,6 @@ async function signUp(login, email, password, repeatPassword) {
 async function getLastClickFromServer() {
   try {
     const id = parseInt(window.localStorage.getItem("id"));
-    console.log("Fetching last click for user ID:", id);
     const response = await axios.post('http://localhost:8080/api/getLastClick', {
       id: id,
     }, {
@@ -65,7 +62,6 @@ async function getLastClickFromServer() {
       },
     });
 
-    console.log("Last click received from server:", response.data.lastclick);
     return response.data.lastclick;
   } catch (error) {
     console.error("Error fetching last click from server:", error);
@@ -112,11 +108,8 @@ async function sendPixelData(x, y, color) {
     console.error("WebSocket не инициализирован или не подключен.");
     return false; // Прекращаем выполнение, если WebSocket недоступен
   }
-  console.log(1)
   lastSendTime = await getLastClickFromServer(); // Получаем последний клик
-  console.log(lastSendTime)
   const currentTime = Date.now();
-  console.log(currentTime)
 
   // Проверка кулдауна
   if (currentTime - lastSendTime < cooldownTime) {
@@ -133,7 +126,6 @@ async function sendPixelData(x, y, color) {
     id: parseInt(window.localStorage.getItem("id")),
   };
 
-  console.log("Отправка данных пикселя:", pixelData);
 
   // Отправляем данные через WebSocket
   socket.send(JSON.stringify(pixelData));
@@ -172,7 +164,6 @@ function initWebSocket() {
 
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    console.log("Received pixel data from WebSocket:", data);
     drawPixel(data.x, data.y, data.color);
   };
 
@@ -202,13 +193,25 @@ canvas.addEventListener('mousedown', async (event) => {
   }
   isDrawing = true;
   const { x, y } = getPixelCoordinates(event);
-  console.log(x, y);
 
   const color = document.querySelector('input[name="color"]:checked').value; // Получаем выбранный цвет
 
   if (await sendPixelData(x, y, color) ) {
     drawPixel(x, y, color); // Рисуем пиксель на клиенте
   }
+});
+// Обработка событий при движении мыши
+canvas.addEventListener('mousemove', (event) => {
+  // Получаем координаты пикселя
+  const { x, y } = getPixelCoordinates(event);
+  if (x===prevx && y===prevy){
+    return
+  }
+  // Обновляем координаты на экране
+  coordinates.textContent = `x: ${x}, y: ${y}`;
+  prevx = x;
+  prevy = y;
+  console.log(x,y)
 });
 canvas.addEventListener('mouseup', () => {
   isDrawing = false;
@@ -223,7 +226,6 @@ async function sendPixels(pixels) {
         'Authorization': `Bearer ${window.localStorage.getItem('jwtToken')}`,
       },
     });
-    console.log('Response from server:', response.data);
   } catch (error) {
     console.error('Error sending pixels:', error);
   }
@@ -235,7 +237,6 @@ async function printSquare(x1, y1, x2, y2, color) {
 
   for (let y = y1; y <= y2; y++) {
     for (let x = x1; x < x2; x++) {
-      console.log(x, y);
       pixels.push({
         x,
         y,
@@ -317,7 +318,7 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
   try {
     const result = await signUp(loginInput, emailInput, passwordInput, confirmPasswordInput);
     if (result.status === "success") {
-      initAfterLogin();
+      await  signIn(loginInput,passwordInput)
     } else {
       alert('Ошибка регистрации.');
     }
@@ -330,24 +331,17 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
 async function initializeApp() {
   fetchPixels();
 
-  const jwtToken = window.localStorage.getItem("jwtToken");
   const authenticated = await isAuthenticated();
   if (authenticated) {
-    if (jwtToken) {
       console.log("JWT token найден, инициализация приложения...");
       initAfterLogin(); // Инициализация приложения, включая WebSocket
-    } else {
-      console.log("JWT token не найден, пожалуйста, войдите в систему.");
-    }
   }
 }
 async function isAuthenticated() {
 
   const token = window.localStorage.getItem("jwtToken");
 
-  if (!token) {
-    return false; // Токен не существует
-  }
+
 
   try {
     const response = await axios.get("http://localhost:8080/auth/validateToken", {

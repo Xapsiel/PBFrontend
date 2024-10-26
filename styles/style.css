@@ -451,3 +451,21 @@ canvas {
   text-align: center;
   margin-top: 15px;
 }
+.coordinate-display {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  color: #fff;
+  border-radius: 8px;
+  font-size: 2em;
+  z-index: 999; /* Higher z-index to ensure it's on top of other elements */
+}
+.coord{
+  display: flex;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
