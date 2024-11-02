@@ -33,6 +33,8 @@ async function signIn(login, password) {
 
 // Функция для регистрации
 async function signUp(login, email, password, repeatPassword) {
+  window.localStorage.setItem("jwtToken", "");
+  console.log(window.localStorage.getItem("jwtToken"))
   try {
     const response = await axios.post("http://localhost:8080/auth/sign-up", {
       login,
@@ -114,6 +116,7 @@ async function sendPixelData(x, y, color) {
   // Проверка кулдауна
   if (currentTime - lastSendTime < cooldownTime) {
     console.log("Пиксель не отправлен, кулдаун ещё активен");
+    showError("Кулдаун не прошел")
     return false;
   }
 
@@ -188,7 +191,7 @@ function getPixelCoordinates(event) {
 // Обработка событий мыши
 canvas.addEventListener('mousedown', async (event) => {
   if (!isAuthenticated()) {
-    alert("Вы должны быть авторизованы, чтобы рисовать пиксели.");
+    showError("Вы должны быть авторизованы, чтобы рисовать пиксели.");
     return; // Прекращаем выполнение функции, если не авторизован
   }
   isDrawing = true;
@@ -211,7 +214,6 @@ canvas.addEventListener('mousemove', (event) => {
   coordinates.textContent = `x: ${x}, y: ${y}`;
   prevx = x;
   prevy = y;
-  console.log(x,y)
 });
 canvas.addEventListener('mouseup', () => {
   isDrawing = false;
@@ -230,6 +232,7 @@ async function sendPixels(pixels) {
     console.error('Error sending pixels:', error);
   }
 }
+
 
 // Функция для рисования квадрата
 async function printSquare(x1, y1, x2, y2, color) {
@@ -296,9 +299,10 @@ document.getElementById('loginBtn').addEventListener('click', async (e) => {
 
   try {
     await signIn(login, password);
+    home.classList.remove("show")
     initAfterLogin(); // Инициализация WebSocket после успешного входа
   } catch (error) {
-    alert('Ошибка при входе: ' + error.message); // Вывод ошибки
+    showError('Ошибка при входе'); // Вывод ошибки
   }
 });
 
@@ -311,7 +315,7 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
   const confirmPasswordInput = document.getElementById('confirmPassword').value;
 
   if (passwordInput !== confirmPasswordInput) {
-    alert('Пароли не совпадают!');
+    showError('Пароли не совпадают!');
     return;
   }
 
@@ -319,13 +323,29 @@ document.getElementById('registerButton').addEventListener('click', async (e) =>
     const result = await signUp(loginInput, emailInput, passwordInput, confirmPasswordInput);
     if (result.status === "success") {
       await  signIn(loginInput,passwordInput)
+      home.classList.remove("show")
     } else {
-      alert('Ошибка регистрации.');
+      showError('Ошибка регистрации.');
     }
   } catch (error) {
-    alert('Ошибка при регистрации: ' + error.message);
+    showError('Ошибка при регистрации' );
   }
 });
+function showError(message) {
+  const errorDisplay = document.getElementById('error-display');
+  const errorText = document.getElementById('error-text');
+
+  // Устанавливаем текст ошибки
+  errorText.textContent = message;
+
+  // Показываем ошибку, делая ее видимой
+  errorDisplay.style.opacity = '1';
+
+  // Скрываем ошибку через 5 секунд
+  setTimeout(() => {
+    errorDisplay.style.opacity = '0';
+  }, 5000);
+}
 
 // Функция для инициализации приложения при загрузке страницы
 async function initializeApp() {
@@ -351,6 +371,7 @@ async function isAuthenticated() {
     });
     return response.data.isValid; // Предполагается, что сервер возвращает { isValid: true/false }
   } catch (error) {
+    showError("Вы не авторизованы")
     return false; // В случае ошибки также считаем, что пользователь не авторизован
   }
 }
