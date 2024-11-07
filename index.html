@@ -15,7 +15,9 @@
 </head>
 
 <body>
+<!-- Main Container -->
 <div class="main">
+  <!-- Info Section -->
   <div class="info">
     <div class="specs__inner">
       <ul class="specs__list">
@@ -50,6 +52,7 @@
     </div>
   </div>
 
+  <!-- Button Container -->
   <div class="button__container">
     <button class="button" id="form-open">Войти</button>
   </div>
@@ -57,9 +60,11 @@
     <button class="button" id="exitBtn">Выйти</button>
   </div>
 
+  <!-- Home Section -->
   <section class="home">
     <div class="form_container">
       <i class="uil uil-times form_close"></i>
+      <!-- Login Form -->
       <div class="form login_form">
         <form id="loginForm">
           <h2>Вход</h2>
@@ -73,16 +78,17 @@
             <i class="uil uil-eye-slash pw_hide"></i>
           </div>
           <div class="option_field">
-          <span class="checkbox">
-            <input type="checkbox" id="check" />
-            <label for="check">Запомнить меня</label>
-          </span>
+              <span class="checkbox">
+                <input type="checkbox" id="check" />
+                <label for="check">Запомнить меня</label>
+              </span>
             <a href="#" class="forgot_pw">Забыли пароль?</a>
           </div>
           <button type="submit" class="button" id="loginBtn">Войти</button>
           <div class="login_signup">Нет аккаунта? <a href="#" id="signupBtn">Зарегистрироваться</a></div>
         </form>
       </div>
+      <!-- Signup Form -->
       <div class="form signup_form">
         <form id="signupForm">
           <h2>Регистрация</h2>
@@ -110,6 +116,8 @@
       </div>
     </div>
   </section>
+
+  <!-- Color Picker -->
   <div class="colors" id="colorPicker">
     <div class="colors__inner">
       <label class="color-option">
@@ -142,9 +150,13 @@
       </label>
     </div>
   </div>
+
+  <!-- Error Display -->
   <div class="error-display" id="error-display">
     <span class="error" id="error-text"></span>
   </div>
+
+  <!-- Coordinate Display -->
   <div class="coordinate-display" id="coordinateDisplay">
     <ul class="coord">
       <li>
@@ -157,8 +169,15 @@
   </div>
 </div>
 
+<!-- Canvas -->
 <canvas class="canvas__style" id="pixelCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
-<script src="script.js"></script>
+
+<!-- JavaScript Modules -->
+<script src="scripts/auth.js" type="module"></script>
+<script src="scripts/canvas.js" type="module"></script>
+<script src="scripts/websocket.js" type="module"></script>
+<script src="scripts/ui.js" type="module"></script>
+<script src="scripts/main.js" type="module"></script>
 </body>
 
 </html>
