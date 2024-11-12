@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
@@ -15,169 +15,171 @@
 </head>
 
 <body>
-<!-- Main Container -->
-<div class="main">
-  <!-- Info Section -->
-  <div class="info">
-    <div class="specs__inner">
-      <ul class="specs__list">
-        <li class="specs__list-item">
-          <p class="specs__item-title">Размер поля</p>
-          <p class="specs__item-descr">300х300</p>
-        </li>
-        <li class="specs__list-item">
-          <p class="specs__item-title">Кулдаун</p>
-          <p class="specs__item-descr">10 сек.</p>
-        </li>
-      </ul>
-    </div>
+  <div class="content">
+    <!-- Main Container -->
+    <div class="main">
+      <!-- Info Section -->
+      <div class="info">
+        <div class="specs__inner">
+          <ul class="specs__list">
+            <li class="specs__list-item">
+              <p class="specs__item-title">Размер поля</p>
+              <p class="specs__item-descr">300х300</p>
+            </li>
+            <li class="specs__list-item">
+              <p class="specs__item-title">Кулдаун</p>
+              <p class="specs__item-descr">10 сек.</p>
+            </li>
+          </ul>
+        </div>
 
-    <div class="link__inner">
-      <p class="link__title">Связаться с нами</p>
-      <a class="link__email" href="mailto:1234567@gmail.com">1234531237@gmail.com</a>
-      <ul class="link__list">
-        <li class="link__list-item">
-          <p class="link__list-name">frontend:</p>
-          <a class="link__telegram" href="#">
-            <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
-          </a>
-        </li>
-        <li class="link__list-item">
-          <p class="link__list-name">backend:</p>
-          <a class="link__telegram" href="#">
-            <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Button Container -->
-  <div class="button__container">
-    <button class="button" id="form-open">Войти</button>
-  </div>
-  <div class="button__container">
-    <button class="button" id="exitBtn">Выйти</button>
-  </div>
-
-  <!-- Home Section -->
-  <section class="home">
-    <div class="form_container">
-      <i class="uil uil-times form_close"></i>
-      <!-- Login Form -->
-      <div class="form login_form">
-        <form id="loginForm">
-          <h2>Вход</h2>
-          <div class="input_box">
-            <input type="text" id="loginInput" placeholder="Имя пользователя" required />
-            <i class="uil uil-envelope-alt email"></i>
-          </div>
-          <div class="input_box">
-            <input type="password" id="passwordInput" placeholder="Введите пароль" required />
-            <i class="uil uil-lock password"></i>
-            <i class="uil uil-eye-slash pw_hide"></i>
-          </div>
-          <div class="option_field">
-              <span class="checkbox">
-                <input type="checkbox" id="check" />
-                <label for="check">Запомнить меня</label>
-              </span>
-            <a href="#" class="forgot_pw">Забыли пароль?</a>
-          </div>
-          <button type="submit" class="button" id="loginBtn">Войти</button>
-          <div class="login_signup">Нет аккаунта? <a href="#" id="signupBtn">Зарегистрироваться</a></div>
-        </form>
+        <div class="link__inner">
+          <p class="link__title">Связаться с нами</p>
+          <a class="link__email" href="mailto:1234567@gmail.com">cfuvpixelbattle@mail.ru</a>
+          <ul class="link__list">
+            <li class="link__list-item">
+              <p class="link__list-name">frontend:</p>
+              <a class="link__telegram" href="#">
+                <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
+              </a>
+            </li>
+            <li class="link__list-item">
+              <p class="link__list-name">backend:</p>
+              <a class="link__telegram" href="#">
+                <img class="link__telegram-img" src="images/telegram.svg" alt="telegram">
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <!-- Signup Form -->
-      <div class="form signup_form">
-        <form id="signupForm">
-          <h2>Регистрация</h2>
-          <div class="input_box">
-            <input type="email" id="email" placeholder="Введите ваш e-mail" required />
-            <i class="uil uil-envelope-alt email"></i>
+
+      <!-- Button Container -->
+      <div class="button__container">
+        <button class="button" id="form-open">Войти</button>
+      </div>
+      <div class="button__container">
+        <button class="button" id="exitBtn">Выйти</button>
+      </div>
+
+      <!-- Home Section -->
+      <section class="home">
+        <div class="form_container">
+          <i class="uil uil-times form_close"></i>
+          <!-- Login Form -->
+          <div class="form login_form">
+            <form id="loginForm">
+              <h2>Вход</h2>
+              <div class="input_box">
+                <input type="text" id="loginInput" placeholder="Имя пользователя" required />
+                <i class="uil uil-envelope-alt email"></i>
+              </div>
+              <div class="input_box">
+                <input type="password" id="passwordInput" placeholder="Введите пароль" required />
+                <i class="uil uil-lock password"></i>
+                <i class="uil uil-eye-slash pw_hide"></i>
+              </div>
+              <div class="option_field">
+                <span class="checkbox">
+                  <input type="checkbox" id="check" />
+                  <label for="check">Запомнить меня</label>
+                </span>
+                <a href="#" class="forgot_pw">Забыли пароль?</a>
+              </div>
+              <button type="submit" class="button" id="loginBtn">Войти</button>
+              <div class="login_signup">Нет аккаунта? <a href="#" id="signupBtn">Зарегистрироваться</a></div>
+            </form>
           </div>
-          <div class="input_box">
-            <input type="text" id="signupLogin" placeholder="Введите логин" required />
-            <i class="uil uil-envelope-alt email"></i>
+          <!-- Signup Form -->
+          <div class="form signup_form">
+            <form id="signupForm">
+              <h2>Регистрация</h2>
+              <div class="input_box">
+                <input type="email" id="email" placeholder="Введите ваш e-mail" required />
+                <i class="uil uil-envelope-alt email"></i>
+              </div>
+              <div class="input_box">
+                <input type="text" id="signupLogin" placeholder="Введите логин" required />
+                <i class="uil uil-envelope-alt email"></i>
+              </div>
+              <div class="input_box">
+                <input type="password" id="signupPassword" placeholder="Создайте пароль" required />
+                <i class="uil uil-lock password"></i>
+                <i class="uil uil-eye-slash pw_hide"></i>
+              </div>
+              <div class="input_box">
+                <input type="password" id="confirmPassword" placeholder="Повторите пароль" required />
+                <i class="uil uil-lock password"></i>
+                <i class="uil uil-eye-slash pw_hide"></i>
+              </div>
+              <button type="submit" class="button" id="registerButton">Зарегистрироваться</button>
+              <div class="login_signup">Уже есть аккаунт? <a href="#" id="toLogin">Войти</a></div>
+            </form>
           </div>
-          <div class="input_box">
-            <input type="password" id="signupPassword" placeholder="Создайте пароль" required />
-            <i class="uil uil-lock password"></i>
-            <i class="uil uil-eye-slash pw_hide"></i>
-          </div>
-          <div class="input_box">
-            <input type="password" id="confirmPassword" placeholder="Повторите пароль" required />
-            <i class="uil uil-lock password"></i>
-            <i class="uil uil-eye-slash pw_hide"></i>
-          </div>
-          <button type="submit" class="button" id="registerButton">Зарегистрироваться</button>
-          <div class="login_signup">Уже есть аккаунт? <a href="#" id="toLogin">Войти</a></div>
-        </form>
+        </div>
+      </section>
+
+      <!-- Color Picker -->
+      <div class="colors" id="colorPicker">
+        <div class="colors__inner">
+          <label class="color-option">
+            <input class="colors__input red" type="radio" name="color" value="#FF0000" checked>
+            <p>Красный</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input green" type="radio" name="color" value="#00FF00">
+            <p>Зеленый</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input blue" type="radio" name="color" value="#0000FF">
+            <p>Синий</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input yellow" type="radio" name="color" value="#FFFF00">
+            <p>Желтый</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input pink" type="radio" name="color" value="#FF00FF">
+            <p>Розовый</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input cyan" type="radio" name="color" value="#00FFFF">
+            <p>Циан</p>
+          </label>
+          <label class="color-option">
+            <input class="colors__input black" type="radio" name="color" value="#000000">
+            <p>Черный</p>
+          </label>
+        </div>
+      </div>
+
+      <!-- Error Display -->
+      <div class="error-display" id="error-display">
+        <span class="error" id="error-text"></span>
+      </div>
+
+      <!-- Coordinate Display -->
+      <div class="coordinate-display" id="coordinateDisplay">
+        <ul class="coord">
+          <li>
+            <label>x = 1</label>
+          </li>
+          <li>
+            <label>y = 1</label>
+          </li>
+        </ul>
       </div>
     </div>
-  </section>
 
-  <!-- Color Picker -->
-  <div class="colors" id="colorPicker">
-    <div class="colors__inner">
-      <label class="color-option">
-        <input class="colors__input red" type="radio" name="color" value="#FF0000" checked>
-        <p>Красный</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input green" type="radio" name="color" value="#00FF00">
-        <p>Зеленый</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input blue" type="radio" name="color" value="#0000FF">
-        <p>Синий</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input yellow" type="radio" name="color" value="#FFFF00">
-        <p>Желтый</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input pink" type="radio" name="color" value="#FF00FF">
-        <p>Розовый</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input cyan" type="radio" name="color" value="#00FFFF">
-        <p>Циан</p>
-      </label>
-      <label class="color-option">
-        <input class="colors__input black" type="radio" name="color" value="#000000">
-        <p>Черный</p>
-      </label>
-    </div>
+    <!-- Canvas -->
+    <canvas class="canvas__style" id="pixelCanvas" style="border:1px solid #000;"></canvas>
+
   </div>
-
-  <!-- Error Display -->
-  <div class="error-display" id="error-display">
-    <span class="error" id="error-text"></span>
-  </div>
-
-  <!-- Coordinate Display -->
-  <div class="coordinate-display" id="coordinateDisplay">
-    <ul class="coord">
-      <li>
-        <label>x = 1</label>
-      </li>
-      <li>
-        <label>y = 1</label>
-      </li>
-    </ul>
-  </div>
-</div>
-
-<!-- Canvas -->
-<canvas class="canvas__style" id="pixelCanvas" width="500" height="500" style="border:1px solid #000;"></canvas>
-
-<!-- JavaScript Modules -->
-<script src="scripts/auth.js" type="module"></script>
-<script src="scripts/canvas.js" type="module"></script>
-<script src="scripts/websocket.js" type="module"></script>
-<script src="scripts/ui.js" type="module"></script>
-<script src="scripts/main.js" type="module"></script>
+  <!-- JavaScript Modules -->
+  <script src="scripts/auth.js" type="module"></script>
+  <script src="scripts/canvas.js" type="module"></script>
+  <script src="scripts/websocket.js" type="module"></script>
+  <script src="scripts/ui.js" type="module"></script>
+  <script src="scripts/main.js" type="module"></script>
 </body>
 
 </html>

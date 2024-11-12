@@ -1,6 +1,6 @@
 // websocket.js
 import { auth } from './auth.js';
-import { fetchPixels, drawPixel } from './canvas.js';
+import { fetchPixels, drawPixel, drawBufferToCanvas } from './canvas.js';
 
 let socket = null;
 
@@ -11,6 +11,7 @@ function initWebSocket() {
     socket.onmessage = event => {
         const data = JSON.parse(event.data);
         drawPixel(data.x, data.y, data.color);
+        drawBufferToCanvas()
     };
     socket.onclose = () => setTimeout(initWebSocket, 2000);
 }
